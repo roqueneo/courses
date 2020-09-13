@@ -31,5 +31,11 @@ namespace WebApi.Controllers
             GetCourseByIdRequest request = new GetCourseByIdRequest{CourseId = id};
             return await _mediator.Send(request);
         }
+
+        [HttpPost]
+        public async Task<ActionResult<Course>> Add([FromBody] AddCourseRequest request)
+        {
+            return await _mediator.Send(request);
+        }
     }
 }
