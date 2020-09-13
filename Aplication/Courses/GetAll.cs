@@ -8,19 +8,19 @@ using Persistence;
 
 namespace Aplication.Courses
 {
-    public class CourseListRequest : IRequest<IList<Course>> 
+    public class GetAllCoursesRequest : IRequest<IList<Course>> 
     {}
 
-    public class CourseListHandler : IRequestHandler<CourseListRequest, IList<Course>>
+    public class GetAllCoursesHandler : IRequestHandler<GetAllCoursesRequest, IList<Course>>
     {
         private readonly CoursesDbContext _context;
 
-        public CourseListHandler(CoursesDbContext context)
+        public GetAllCoursesHandler(CoursesDbContext context)
         {
             _context = context;
         }
 
-        public async Task<IList<Course>> Handle(CourseListRequest request, CancellationToken cancellationToken)
+        public async Task<IList<Course>> Handle(GetAllCoursesRequest request, CancellationToken cancellationToken)
         {
             var allCourses = await _context.Course.ToListAsync();
             return allCourses;

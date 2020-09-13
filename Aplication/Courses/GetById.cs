@@ -6,21 +6,21 @@ using Persistence;
 
 namespace Aplication.Courses
 {
-    public class CourseRequest : IRequest<Course>
+    public class GetCourseByIdRequest : IRequest<Course>
     {
         public int CourseId { get; set; }
     }
 
-    public class CourseHandler : IRequestHandler<CourseRequest, Course>
+    public class GetCourseByIdHandler : IRequestHandler<GetCourseByIdRequest, Course>
     {
         private readonly CoursesDbContext _context;
 
-        public CourseHandler(CoursesDbContext context)
+        public GetCourseByIdHandler(CoursesDbContext context)
         {
             _context = context;
         }
 
-        public async Task<Course> Handle(CourseRequest request, CancellationToken cancellationToken)
+        public async Task<Course> Handle(GetCourseByIdRequest request, CancellationToken cancellationToken)
         {
             var course = await _context.Course.FindAsync(request.CourseId);
             return course;

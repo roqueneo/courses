@@ -25,7 +25,7 @@ namespace WebApi
             services.AddDbContext<CoursesDbContext>(opt => {
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-            services.AddMediatR(typeof(CourseListHandler).Assembly);
+            services.AddMediatR(typeof(GetAllCoursesHandler).Assembly);
             services.AddControllers();
         }
 

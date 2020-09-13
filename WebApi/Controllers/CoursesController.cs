@@ -20,7 +20,7 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IList<Course>>> Get()
         {
-            CourseListRequest request = new CourseListRequest();
+            GetAllCoursesRequest request = new GetAllCoursesRequest();
             var courses = await _mediator.Send(request);
             return Ok(courses);
         }
@@ -28,7 +28,7 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Course>> GetDetail(int id)
         {
-            CourseRequest request = new CourseRequest{CourseId = id};
+            GetCourseByIdRequest request = new GetCourseByIdRequest{CourseId = id};
             return await _mediator.Send(request);
         }
     }
