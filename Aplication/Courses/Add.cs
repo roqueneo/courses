@@ -24,6 +24,7 @@ namespace Aplication.Courses
         {
             _context = context;
         }
+
         public async Task<Course> Handle(AddCourseRequest request, CancellationToken cancellationToken)
         {
             Course course = new Course
@@ -37,6 +38,7 @@ namespace Aplication.Courses
 
             if (executedTransactions == 0)
                 throw new Exception("Course can't be added");
+
             return course; 
         }
     }

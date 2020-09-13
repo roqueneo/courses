@@ -33,8 +33,15 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Course>> Add([FromBody] AddCourseRequest request)
+        public async Task<ActionResult<Course>> Add(AddCourseRequest request)
         {
+            return await _mediator.Send(request);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Course>> Update(int id, UpdateCourseRequest request)
+        {
+            request.CourseId = id;
             return await _mediator.Send(request);
         }
     }
