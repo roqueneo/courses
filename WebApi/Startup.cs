@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persistence;
-using static Aplication.Courses.Query;
+using Aplication.Courses;
 
 namespace WebApi
 {

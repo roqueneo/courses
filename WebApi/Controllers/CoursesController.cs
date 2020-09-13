@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static Aplication.Courses.Query;
+using Aplication.Courses;
 
 namespace WebApi.Controllers
 {
@@ -18,9 +18,17 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IList<Course>> Get()
+        public async Task<ActionResult<IList<Course>>> Get()
         {
             CourseListRequest request = new CourseListRequest();
+            var courses = await _mediator.Send(request);
+            return Ok(courses);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Course>> GetDetail(int id)
+        {
+            CourseRequest request = new CourseRequest{CourseId = id};
             return await _mediator.Send(request);
         }
     }
