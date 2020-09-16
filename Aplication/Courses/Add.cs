@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain;
@@ -9,10 +10,13 @@ namespace Aplication.Courses
 {
     public class AddCourseRequest : IRequest<Course>
     {
+        [Required]
         public string Name { get; set; }
 
+        [Required]
         public string Description { get; set; }
 
+        [Required]
         public DateTime PublicationDate { get; set; } 
     }
 
