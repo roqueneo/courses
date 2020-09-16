@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persistence;
 using Aplication.Courses;
+using FluentValidation.AspNetCore;
 
 namespace WebApi
 {
@@ -26,7 +27,7 @@ namespace WebApi
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddMediatR(typeof(GetAllCoursesHandler).Assembly);
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<GetAllCoursesRequest>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

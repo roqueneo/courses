@@ -1,8 +1,8 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -10,14 +10,21 @@ namespace Aplication.Courses
 {
     public class AddCourseRequest : IRequest<Course>
     {
-        [Required]
         public string Name { get; set; }
 
-        [Required]
         public string Description { get; set; }
 
-        [Required]
-        public DateTime PublicationDate { get; set; } 
+        public DateTime? PublicationDate { get; set; } 
+    }
+
+    public class AddCourseRequestValidator : AbstractValidator<AddCourseRequest>
+    {
+        public AddCourseRequestValidator()
+        {
+            RuleFor(r => r.Name).NotEmpty();
+            RuleFor(r => r.Description).NotEmpty();
+            RuleFor(r => r.PublicationDate).NotNull();
+        }
     }
 
     public class AddCourseHandler : IRequestHandler<AddCourseRequest, Course>
@@ -35,7 +42,7 @@ namespace Aplication.Courses
             {
                 Name = request.Name,
                 Description = request.Description,
-                PublicationDate = request.PublicationDate
+                PublicationDate = request.PublicationDate.Value
             };
             _context.Course.Add(course);
             int executedTransactions = await _context.SaveChangesAsync();

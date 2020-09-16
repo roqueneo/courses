@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -16,6 +17,15 @@ namespace Aplication.Courses
         public string Description { get; set; }
 
         public DateTime? PublicationDate { get; set; } 
+    }
+
+    public class UpdateCourseRequestValidator : AbstractValidator<UpdateCourseRequest>
+    {
+        public UpdateCourseRequestValidator()
+        {
+            RuleFor(r => r.Name).NotEmpty().When(r => r.Name != null);
+            RuleFor(r => r.Description).NotEmpty().When(r => r.Description != null);
+        }
     }
 
     public class UpdateCourseHandler : IRequestHandler<UpdateCourseRequest, Course>
@@ -40,7 +50,7 @@ namespace Aplication.Courses
             int executedTransactions = await _context.SaveChangesAsync();
 
             if (executedTransactions == 0)
-                throw new Exception("Course can't be added");
+                throw new Exception("Course can't be updated");
 
             return course; 
         }
