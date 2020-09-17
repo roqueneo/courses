@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Aplication.Courses;
+using Application.Courses;
 
 namespace WebApi.Controllers
 {

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persistence;
-using Aplication.Courses;
+using Application.Courses;
 using FluentValidation.AspNetCore;
 
 namespace WebApi
