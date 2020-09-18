@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Error;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -41,7 +43,7 @@ namespace Application.Courses
         {
             Course course = await _context.Course.FindAsync(request.CourseId);
             if (course == null)
-                throw new ArgumentNullException("CourseId", $"Course with identifier [{request.CourseId}] not found");
+                throw new ErrorHandler(HttpStatusCode.NotFound, new { course = $"Course with identifier [{request.CourseId}] not found"});
 
             course.Name = request.Name ?? course.Name;
             course.Description = request.Description ?? course.Description;
