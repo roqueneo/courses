@@ -33,12 +33,8 @@ namespace WebApi
             });
             services.AddMediatR(typeof(GetAllCoursesHandler).Assembly);
             services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<GetAllCoursesRequest>());
-
-            var builder = services.AddIdentityCore<User>();
-            var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
-            identityBuilder.AddEntityFrameworkStores<CoursesDbContext>();
-            identityBuilder.AddSignInManager<SignInManager<User>>();
             services.TryAddSingleton<ISystemClock, SystemClock>();
+            ConfigureIdentity(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,17 +45,21 @@ namespace WebApi
             {
                 // app.UseDeveloperExceptionPage();
             }
-
             //app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void ConfigureIdentity(IServiceCollection services)
+        {
+            var builder = services.AddIdentityCore<User>();
+            var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
+            identityBuilder.AddEntityFrameworkStores<CoursesDbContext>();
+            identityBuilder.AddSignInManager<SignInManager<User>>();
         }
     }
 }
