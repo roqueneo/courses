@@ -9,6 +9,8 @@ using Persistence;
 using Application.Courses;
 using FluentValidation.AspNetCore;
 using WebApi.Middlewares;
+using Domain;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApi
 {
@@ -29,6 +31,11 @@ namespace WebApi
             });
             services.AddMediatR(typeof(GetAllCoursesHandler).Assembly);
             services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<GetAllCoursesRequest>());
+
+            var builder = services.AddIdentityCore<User>();
+            var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
+            identityBuilder.AddEntityFrameworkStores<CoursesDbContext>();
+            identityBuilder.AddSignInManager<SignInManager<User>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
