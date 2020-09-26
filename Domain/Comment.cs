@@ -1,3 +1,5 @@
+using System;
+
 namespace Domain
 {
     public class Comment : BaseDomainObject
@@ -8,7 +10,7 @@ namespace Domain
         
         public string Text { get; set; }
         
-        public int CourseId { get; set; }
+        public Guid CourseId { get; set; }
         
         public Course Course { get; set; }
 

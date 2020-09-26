@@ -1,7 +1,9 @@
+using System;
+
 namespace Domain
 {
     public abstract class BaseDomainObject
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
     }
 }
