@@ -7,15 +7,11 @@ using Application.Courses;
 
 namespace WebApi.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class CoursesController : ControllerBase
+    public class CoursesController : ApiControllerBase
     {
-        private readonly IMediator _mediator;
         public CoursesController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+            : base(mediator)
+        { }
 
         [HttpGet]
         public async Task<ActionResult<IList<Course>>> Get()
