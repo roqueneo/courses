@@ -4,6 +4,8 @@
 /Domain/obj
 /Persistence/bin
 /Persistence/obj
+/Security/bin
+/Security/obj
 /WebApi/bin
 /WebApi/obj
 /debug.log
