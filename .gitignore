@@ -6,3 +6,5 @@
 /Persistence/obj
 /WebApi/bin
 /WebApi/obj
+/debug.log
+/.vscode

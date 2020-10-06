@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Account
 {
-    public class LoginRequest : IRequest<User>
+    public class LoginRequest : IRequest<UserModel>
     {
         public string Email { get; set; }
 
@@ -25,7 +25,7 @@ namespace Application.Account
         }
     }
 
-    public class LoginHandler : IRequestHandler<LoginRequest, User>
+    public class LoginHandler : IRequestHandler<LoginRequest, UserModel>
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
@@ -36,7 +36,7 @@ namespace Application.Account
             _signInManager = signInManager;
         }
 
-        public async Task<User> Handle(LoginRequest request, CancellationToken cancellationToken)
+        public async Task<UserModel> Handle(LoginRequest request, CancellationToken cancellationToken)
         {
             User user = await _userManager.FindByEmailAsync(request.Email);
             if (user == null)
@@ -46,7 +46,7 @@ namespace Application.Account
             if (!result.Succeeded)
                 throw new ErrorHandler(HttpStatusCode.Unauthorized);
             
-            return user;
+            return new UserModel(user.FullName, user.UserName, user.Email);
         }
     }
 }
