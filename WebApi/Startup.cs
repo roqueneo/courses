@@ -18,6 +18,8 @@ using Security.JsonWebTokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace WebApi
 {
@@ -37,7 +39,10 @@ namespace WebApi
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddMediatR(typeof(GetAllCoursesHandler).Assembly);
-            services.AddControllers()
+            services.AddControllers(opt => {
+                    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                    opt.Filters.Add(new AuthorizeFilter(policy));
+                })
                 .AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<GetAllCoursesRequest>());
             services.TryAddSingleton<ISystemClock, SystemClock>();
             ConfigureIdentity(services);

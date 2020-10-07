@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Application.Account;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -12,6 +13,7 @@ namespace WebApi.Controllers
         { }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<ActionResult<UserModel>> Login(LoginRequest request)
         {
             return await _mediator.Send(request);

@@ -12,7 +12,7 @@ namespace Application.Courses
 {
     public class UpdateCourseRequest : IRequest<Course>
     {
-        public int CourseId { get; set; }
+        public Guid CourseId { get; set; }
 
         public string Name { get; set; }
 

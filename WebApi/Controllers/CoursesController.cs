@@ -4,7 +4,7 @@ using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Application.Courses;
-using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace WebApi.Controllers
 {
@@ -15,7 +15,6 @@ namespace WebApi.Controllers
         { }
 
         [HttpGet]
-        [Authorize]
         public async Task<ActionResult<IList<Course>>> Get()
         {
             GetAllCoursesRequest request = new GetAllCoursesRequest();
@@ -24,7 +23,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Course>> GetDetail(int id)
+        public async Task<ActionResult<Course>> GetDetail(Guid id)
         {
             GetCourseByIdRequest request = new GetCourseByIdRequest{CourseId = id};
             return await _mediator.Send(request);
@@ -37,7 +36,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Course>> Update(int id, UpdateCourseRequest request)
+        public async Task<ActionResult<Course>> Update(Guid id, UpdateCourseRequest request)
         {
             request.CourseId = id;
             return await _mediator.Send(request);

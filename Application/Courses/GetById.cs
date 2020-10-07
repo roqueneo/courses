@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Application.Courses
 {
     public class GetCourseByIdRequest : IRequest<Course>
     {
-        public int CourseId { get; set; }
+        public Guid CourseId { get; set; }
     }
 
     public class GetCourseByIdHandler : IRequestHandler<GetCourseByIdRequest, Course>
