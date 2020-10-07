@@ -5,8 +5,9 @@ namespace Application.Account
         public UserModel()
         { }
 
-        public UserModel(string fullName, string userName, string email)
+        public UserModel(string token, string fullName, string userName, string email)
         {
+            Token = token;
             FullName = fullName;
             UserName = userName;
             Email = email;

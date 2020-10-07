@@ -13,6 +13,8 @@ using Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Authentication;
+using Application.Interfaces;
+using Security.JsonWebTokens;
 
 namespace WebApi
 {
@@ -35,6 +37,7 @@ namespace WebApi
             services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<GetAllCoursesRequest>());
             services.TryAddSingleton<ISystemClock, SystemClock>();
             ConfigureIdentity(services);
+            ConfigureJwt(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,13 +56,17 @@ namespace WebApi
                 endpoints.MapControllers();
             });
         }
-
         private void ConfigureIdentity(IServiceCollection services)
         {
             var builder = services.AddIdentityCore<User>();
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
             identityBuilder.AddEntityFrameworkStores<CoursesDbContext>();
             identityBuilder.AddSignInManager<SignInManager<User>>();
+        }
+
+        private void ConfigureJwt(IServiceCollection services)
+        {
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
         }
     }
 }

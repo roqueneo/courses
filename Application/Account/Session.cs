@@ -2,6 +2,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Error;
+using Application.Interfaces;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -29,11 +30,13 @@ namespace Application.Account
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IJwtGenerator _jwtGenerator;
 
-        public LoginHandler(UserManager<User> userManager, SignInManager<User> signInManager)
+        public LoginHandler(UserManager<User> userManager, SignInManager<User> signInManager, IJwtGenerator jwtGenerator)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _jwtGenerator = jwtGenerator;
         }
 
         public async Task<UserModel> Handle(LoginRequest request, CancellationToken cancellationToken)
@@ -46,7 +49,8 @@ namespace Application.Account
             if (!result.Succeeded)
                 throw new ErrorHandler(HttpStatusCode.Unauthorized);
             
-            return new UserModel(user.FullName, user.UserName, user.Email);
+            string token = _jwtGenerator.CreateToken(user);
+            return new UserModel(token, user.FullName, user.UserName, user.Email);
         }
     }
 }
