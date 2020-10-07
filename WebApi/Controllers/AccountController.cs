@@ -18,5 +18,12 @@ namespace WebApi.Controllers
         {
             return await _mediator.Send(request);
         }
+
+        [HttpPost("signin")]
+        [AllowAnonymous]
+        public async Task<ActionResult<UserModel>> SignIg(SignInCommand request)
+        {
+            return await _mediator.Send(request);
+        }
     }
 }
