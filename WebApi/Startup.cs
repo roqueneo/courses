@@ -15,6 +15,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Application.Interfaces;
 using Security.JsonWebTokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace WebApi
 {
@@ -34,7 +37,8 @@ namespace WebApi
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddMediatR(typeof(GetAllCoursesHandler).Assembly);
-            services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<GetAllCoursesRequest>());
+            services.AddControllers()
+                .AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<GetAllCoursesRequest>());
             services.TryAddSingleton<ISystemClock, SystemClock>();
             ConfigureIdentity(services);
             ConfigureJwt(services);
@@ -49,6 +53,7 @@ namespace WebApi
                 // app.UseDeveloperExceptionPage();
             }
             //app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
@@ -66,6 +71,16 @@ namespace WebApi
 
         private void ConfigureJwt(IServiceCollection services)
         {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKey# 3215"));
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt => {
+                    opt.TokenValidationParameters = new TokenValidationParameters {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = key,
+                        ValidateAudience = false,
+                        ValidateIssuer = false
+                    };
+                });
             services.AddScoped<IJwtGenerator, JwtGenerator>();
         }
     }

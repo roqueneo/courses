@@ -4,6 +4,7 @@ using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Application.Courses;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers
 {
@@ -14,6 +15,7 @@ namespace WebApi.Controllers
         { }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IList<Course>>> Get()
         {
             GetAllCoursesRequest request = new GetAllCoursesRequest();
