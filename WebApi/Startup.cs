@@ -47,6 +47,7 @@ namespace WebApi
             services.TryAddSingleton<ISystemClock, SystemClock>();
             ConfigureIdentity(services);
             ConfigureJwt(services);
+            services.AddScoped<IUserSession, UserSession>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

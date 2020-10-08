@@ -25,5 +25,12 @@ namespace WebApi.Controllers
         {
             return await _mediator.Send(request);
         }
+
+        [HttpGet("loggeduser")]
+        public async Task<ActionResult<UserModel>> GetLoggedUser()
+        {
+            GetLoggedUserRequest request = new GetLoggedUserRequest();
+            return await _mediator.Send(request);
+        }
     }
 }
