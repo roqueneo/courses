@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -14,6 +15,15 @@ namespace Application.Instructors
         public string LastName { get; set; }
         
         public string Grade { get; set; }
+    }
+
+    public class AddInstructorRequestValidator : AbstractValidator<AddInstructorRequest>
+    {
+        public AddInstructorRequestValidator()
+        {
+            RuleFor(i => i.Name).NotEmpty();
+            RuleFor(i => i.LastName).NotEmpty();
+        }
     }
 
     public class AddInstructorHandler : IRequestHandler<AddInstructorRequest, Instructor>

@@ -18,8 +18,8 @@ namespace WebApi.Controllers
         public async Task<ActionResult<IList<Course>>> GetAll()
         {
             GetAllCoursesRequest request = new GetAllCoursesRequest();
-            var courses = _mediator.Send(request);
-            return courses;
+            var courses = await _mediator.Send(request);
+            return Ok(courses);
         }
 
         [HttpGet("{id}")]
