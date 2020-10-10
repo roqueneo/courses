@@ -15,11 +15,11 @@ namespace WebApi.Controllers
         { }
 
         [HttpGet]
-        public async Task<ActionResult<IList<Course>>> Get()
+        public async Task<ActionResult<IList<Course>>> GetAll()
         {
             GetAllCoursesRequest request = new GetAllCoursesRequest();
-            var courses = await _mediator.Send(request);
-            return Ok(courses);
+            var courses = _mediator.Send(request);
+            return courses;
         }
 
         [HttpGet("{id}")]
