@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Instructors;
@@ -24,5 +25,12 @@ namespace WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Instructor>> Add(AddInstructorRequest request)
             => await _mediator.Send(request);
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Instructor>> Update(Guid id, UpdateInstructorRequest request)
+        {
+            request.InstructorId = id;
+            return await _mediator.Send(request);
+        }
     }
 }
