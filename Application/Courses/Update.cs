@@ -50,7 +50,6 @@ namespace Application.Courses
             course.PublicationDate = request.PublicationDate ?? course.PublicationDate;
 
             int executedTransactions = await _context.SaveChangesAsync();
-
             if (executedTransactions == 0)
                 throw new Exception("Course can't be updated");
 

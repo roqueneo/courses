@@ -48,5 +48,14 @@ namespace WebApi.Controllers
             DeleteCourseRequest request = new DeleteCourseRequest{CourseId = id};
             return await _mediator.Send(request);
         }
+
+        [HttpPut("{courseId}/instructors/{instructorId}")]
+        public async Task<ActionResult> UpdateInstructor(Guid courseId, Guid instructorId, UpdateInstructorRequest request)
+        {
+            request.CourseId = courseId;
+            request.InstructorId = instructorId;
+            await _mediator.Send(request);
+            return Ok();
+        }
     }
 }

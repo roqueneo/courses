@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Error;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Courses
@@ -25,7 +26,11 @@ namespace Application.Courses
 
         public async Task<Course> Handle(GetCourseByIdRequest request, CancellationToken cancellationToken)
         {
-            var course = await _context.Course.FindAsync(request.CourseId);
+            var course = await _context.Course
+                .Include(c => c.InstructorLinks)
+                .ThenInclude(c => c.Instructor)
+                .FirstOrDefaultAsync(c => c.Id == request.CourseId);
+                
             if (course == null)
                 throw new ErrorHandler(HttpStatusCode.NotFound, new { course = $"Course with identifier [{request.CourseId}] not found"});
 
